@@ -18,5 +18,6 @@ namespace MentData
         public string Name { get; set; }
         public System.DateTime BDay { get; set; }
         public string Photo { get; set; }
+        public int IsDeleted { get; set; }
     }
 }
