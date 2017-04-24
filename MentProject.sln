@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MentProject", "MentProject\MentProject.csproj", "{3A95782E-6429-4C3C-9176-87BF67FD8D24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MentRepository", "MentRepository\MentRepository.csproj", "{AE650347-D357-4B4D-8462-0ED73CF8EFBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MentData", "MentData\MentData.csproj", "{528649FB-E135-44B6-ACCF-FFABEFDE1BE3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3A95782E-6429-4C3C-9176-87BF67FD8D24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A95782E-6429-4C3C-9176-87BF67FD8D24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A95782E-6429-4C3C-9176-87BF67FD8D24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A95782E-6429-4C3C-9176-87BF67FD8D24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE650347-D357-4B4D-8462-0ED73CF8EFBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE650347-D357-4B4D-8462-0ED73CF8EFBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE650347-D357-4B4D-8462-0ED73CF8EFBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE650347-D357-4B4D-8462-0ED73CF8EFBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{528649FB-E135-44B6-ACCF-FFABEFDE1BE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{528649FB-E135-44B6-ACCF-FFABEFDE1BE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{528649FB-E135-44B6-ACCF-FFABEFDE1BE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{528649FB-E135-44B6-ACCF-FFABEFDE1BE3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
