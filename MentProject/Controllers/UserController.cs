@@ -1,4 +1,5 @@
-﻿using MentProject.Models;
+﻿using MentProject.Helper;
+using MentProject.Models;
 using MentRepository.Repository;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,29 @@ namespace MentProject.Controllers
     public class UserController : Controller
     {
         private IUserRepository _repository;
+        public UserController()
+        {
+            _repository = new UserRepository();
+        }
+
+        public UserController(IUserRepository repository)
+        {
+            this._repository = repository;
+        }
+        private Users LoadRegistry()
+        {
+            return UserMapper.ListUserRepModelToListUserModelMapper(_repository.GetAllUsers());
+        }
 
         public ActionResult Index()
         {
-            var tt = _repository.GetAllUsers();
-            return View();
+            return View(LoadRegistry());
+        }
+
+        public ActionResult DeleteUser(long id)
+        {
+            _repository.DeleteUser(id);
+            return View("Index", LoadRegistry());
         }
     }
 }

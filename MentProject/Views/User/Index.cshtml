@@ -6,9 +6,45 @@
 
 <h2>User Registry</h2>
 
-@foreach (var item in Model)
-{
-    @Html.Display(item.Name)
-}
+<table class="table">
+    <tr>
+        <th>#</th>
+        <th></th>
+        <th></th>
+        <th>
+            @Html.DisplayName("Name")
+        </th>
+        <th>
+            @Html.DisplayName("BDay")
+        </th>
+        <th>
+            @Html.DisplayName("Age")
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <th scope="row">
+                @Html.DisplayName(item.Id.ToString())
+            </th>
+            <td>
+                @Html.ActionLink("Del", "DeleteUser", "User", new { id = item.Id }, null)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditUser", "User", new { id = item.Id })
+            </td>
+            <td>
+                @Html.DisplayName(item.Name)
+            </td>
+            <td>
+                @Html.DisplayName(item.BDay.ToString("dd MMM yyyy"))
+            </td>
+            <td>
+                @Html.DisplayName(item.Age.ToString())
+            </td>
+        </tr>
+    }
+</table>
 
 
