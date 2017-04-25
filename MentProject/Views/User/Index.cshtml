@@ -1,0 +1,14 @@
+﻿@model Users
+@{
+    ViewBag.Title = "User Registry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>User Registry</h2>
+
+@foreach (var item in Model)
+{
+    @Html.Display(item.Name)
+}
+
+
