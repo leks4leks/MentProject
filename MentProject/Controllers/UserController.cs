@@ -12,15 +12,12 @@ namespace MentProject.Controllers
     public class UserController : Controller
     {
         private IUserRepository _repository;
-        public UserController()
-        {
-            _repository = new UserRepository();
-        }
 
         public UserController(IUserRepository repository)
         {
             this._repository = repository;
         }
+
         private Users LoadRegistry()
         {
             return UserMapper.ListUserRepModelToListUserModelMapper(_repository.GetAllUsers());

@@ -14,7 +14,6 @@ namespace MentProject
         {
             var builder = new ContainerBuilder();
             builder.RegisterInstance(new UserRepository()).As<IUserRepository>();
-            builder.RegisterType<UserController>();
             var container = builder.Build();
 
             AreaRegistration.RegisterAllAreas();
