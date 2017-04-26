@@ -15,7 +15,8 @@ namespace MentProject.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime BDay { get; set; }
         public int Age { get { return (DateTime.Now.Year - BDay.Year); } }
         public string Photo { get; set; }

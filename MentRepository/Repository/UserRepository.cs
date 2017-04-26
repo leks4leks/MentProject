@@ -26,7 +26,11 @@ namespace MentRepository.Repository
         }
 
         bool IUserRepository.SaveUser(UserRepModel user)
-        {
+        {            
+            var dbPhoto = _db.Users.Where(_ => _.Id == user.Id).FirstOrDefault().Photo;
+            if (!string.IsNullOrEmpty(dbPhoto) && string.IsNullOrEmpty(user.Photo))
+                user.Photo = dbPhoto;
+
             _db.Set<User>().AddOrUpdate(UserRepMapper.UserRepModelToUserMapper(user));
             _db.SaveChanges();
             return true;
@@ -42,10 +46,7 @@ namespace MentRepository.Repository
                 _db.SaveChanges();
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
     }

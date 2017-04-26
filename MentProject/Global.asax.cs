@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Autofac.Integration.Mvc;
 using MentProject.App_Start;
 using MentProject.Controllers;
 using MentRepository.Repository;
@@ -13,8 +14,10 @@ namespace MentProject
         protected void Application_Start()
         {
             var builder = new ContainerBuilder();
+            builder.RegisterControllers(typeof(MvcApplication).Assembly);
             builder.RegisterInstance(new UserRepository()).As<IUserRepository>();
             var container = builder.Build();
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
 
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);

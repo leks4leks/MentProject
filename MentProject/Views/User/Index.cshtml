@@ -20,6 +20,7 @@
         <th>
             @Html.DisplayName("Age")
         </th>
+        <th></th>
     </tr>
 
     @foreach (var item in Model)
@@ -32,7 +33,7 @@
                 @Html.ActionLink("Del", "DeleteUser", "User", new { id = item.Id }, null)
             </td>
             <td>
-                @Html.ActionLink("Edit", "EditUser", "User", new { id = item.Id })
+                @Html.ActionLink("Edit", "Index", "WorkWithUser", new { id = item.Id }, null)
             </td>
             <td>
                 @Html.DisplayName(item.Name)
@@ -43,7 +44,10 @@
             <td>
                 @Html.DisplayName(item.Age.ToString())
             </td>
-        </tr>
+            <td>
+                <img src="~/images/@item.Photo" width="50" height="50" />
+            </td>
+</tr>
     }
 </table>
 
