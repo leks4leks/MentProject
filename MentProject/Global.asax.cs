@@ -15,7 +15,8 @@ namespace MentProject
         {
             var builder = new ContainerBuilder();
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
-            builder.RegisterInstance(new UserRepository()).As<IUserRepository>();
+            builder.RegisterInstance(new UserRepository()).As<IUserRepository>();            
+            builder.RegisterInstance(new RewardRepository()).As<IRewardRepository>();
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
 

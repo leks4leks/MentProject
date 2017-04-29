@@ -1,0 +1,51 @@
+﻿@model Rewards
+@{
+    ViewBag.Title = "Reward Registry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Reward Registry</h2>
+
+<table class="table">
+    <tr>
+        <th>#</th>
+        <th></th>
+        <th></th>
+        <th>
+            @Html.DisplayName("Title")
+        </th>
+        <th>
+            @Html.DisplayName("Description")
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <th scope="row">
+                @Html.DisplayName(item.Id.ToString())
+            </th>
+            <td>
+                @Html.ActionLink("Del", "DeleteReward", "Reward", new { id = item.Id }, null)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Index", "WorkWithReward", new { id = item.Id }, null)
+            </td>
+            <td>
+                @Html.DisplayName(item.Title)
+            </td>
+            <td>
+                @Html.DisplayName(item.Description)
+            </td>
+            <td>
+                <img src="~/images/@item.Photo" width="50" height="50" />
+            </td>
+        </tr>
+    }
+    <tr>
+        <th>@Html.ActionLink("Add New Reward", "Index", "WorkWithReward", new { id = 0 }, null)</th>
+    </tr>
+</table>
+
+

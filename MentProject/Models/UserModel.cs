@@ -12,6 +12,11 @@ namespace MentProject.Models
 
     public class UserModel
     {
+        public UserModel()
+        {
+            BDay = DateTime.Now;
+        }
+
         public int Id { get; set; }
         public string Name { get; set; }
 

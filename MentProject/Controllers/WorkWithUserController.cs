@@ -20,7 +20,7 @@ namespace MentProject.Controllers
         }
         public ActionResult Index(long id)
         {
-            return View(UserMapper.UserRepModelToUserModelMapper(_repository.GetUserById(id)));
+            return View(id != 0 ? UserMapper.UserRepModelToUserModelMapper(_repository.GetUserById(id)) : new UserModel());
         }
         public ActionResult Save(HttpPostedFileBase file)
         {

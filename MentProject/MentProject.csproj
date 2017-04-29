@@ -176,13 +176,17 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RewardController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\WorkWithRewardController.cs" />
     <Compile Include="Controllers\WorkWithUserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\FileHelper.cs" />
+    <Compile Include="Helper\RewardMapper.cs" />
     <Compile Include="Helper\UserMapper.cs" />
+    <Compile Include="Models\RewardModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -199,6 +203,9 @@
     <Content Include="Views\WorkWithUser\Index.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
+    <Content Include="Views\Reward\Index.cshtml" />
+    <Content Include="Views\WorkWithReward\Index.cshtml" />
+    <Content Include="Views\Shared\_WorkLayout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

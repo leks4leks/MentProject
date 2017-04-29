@@ -47,8 +47,11 @@
             <td>
                 <img src="~/images/@item.Photo" width="50" height="50" />
             </td>
-</tr>
+        </tr>
     }
+    <tr>
+        <th>@Html.ActionLink("Add New User", "Index", "WorkWithUser", new { id = 0 }, null)</th>
+    </tr>
 </table>
 
 

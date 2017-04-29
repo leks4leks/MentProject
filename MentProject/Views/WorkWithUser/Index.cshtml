@@ -1,7 +1,7 @@
 ﻿@model UserModel
 @{
     ViewBag.Title = "Work With User";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_WorkLayout.cshtml";
 }
 
 <h2>Work With User</h2>
@@ -43,26 +43,3 @@
         </p>
     </fieldset>
 }
-
-
-@section scripts {
-<script>
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                $('#selImg').attr('src', e.target.result);
-            }
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    $("#file").change(function () {
-        readURL(this);
-    });
-</script>
-}
-
-

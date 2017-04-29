@@ -12,7 +12,7 @@ namespace MentProject.Helper
         /// <summary>
         /// User to UserRepModel
         /// </summary>
-        /// <param name="user">UserRepModel</param>
+        /// <param name="userRepModel">UserRepModel</param>
         /// <returns>UserModel</returns>
         public static UserModel UserRepModelToUserModelMapper(UserRepModel userRepModel)
         {
@@ -29,7 +29,7 @@ namespace MentProject.Helper
         /// <summary>
         /// UserRepModel to User
         /// </summary>
-        /// <param name="userRepModel">UserModel</param>
+        /// <param name="userModel">UserModel</param>
         /// <returns>UserRepModel</returns>
         public static UserRepModel UserModelToUserRepModelMapper(UserModel userModel)
         {
@@ -44,10 +44,10 @@ namespace MentProject.Helper
         }
 
         /// <summary>
-        /// Users to List<UserModel>
+        /// Users to Users
         /// </summary>
-        /// <param name="users">List<UserRepModel></param>
-        /// <returns>List<UserModel></returns>
+        /// <param name="users">UsersRepModel</param>
+        /// <returns>Users</returns>
         public static Users ListUserRepModelToListUserModelMapper(UsersRepModel users)
         {
             var res = new Users();
