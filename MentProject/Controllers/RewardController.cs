@@ -19,16 +19,32 @@ namespace MentProject.Controllers
             _repository = repository;
         }
 
-        private Rewards LoadRegistry(int userId = 0)
+        private Rewards LoadRegistry(int userId = 0, string rewName = null)
         {
-            return RewardMapper.RewardsRepModelToRewardsMapper(_repository.GetAllRewards(userId), userId);
+            return RewardMapper.RewardsRepModelToRewardsMapper(_repository.GetAllRewards(userId, rewName), userId);
         }
 
+        [Route("awards")]
         public ActionResult Index()
         {
             return View(LoadRegistry());
         }
-        
+
+        [Route("awards/{id:int}")]
+        public ActionResult GetRewardById(int id = 0)
+        {
+            return Edit(id);
+        }
+
+        [Route("awards/{rewName}")]
+        public ActionResult GetRewardByName(string rewName = null)
+        {
+            var rews = LoadRegistry(0, rewName);
+            if (rews.Count == 1 && !string.IsNullOrEmpty(rewName))
+                return View("AddEdit", rews.FirstOrDefault());
+            return View("Index", rews);
+        }
+
         public ActionResult Details(long? id)
         {
             if (id == null)
@@ -45,7 +61,8 @@ namespace MentProject.Controllers
         {
             return RewardMapper.RewardRepModelToRewardModelMapper(_repository.GetRewardById((long)id));
         }
-
+        
+        [Route("create-award")]
         public ActionResult Create()
         {
             return View("AddEdit", new RewardModel());
@@ -92,6 +109,7 @@ namespace MentProject.Controllers
             return View("AddEdit", rewardModel);
         }
         
+        [Route("awards/{id:int}/edit")]
         public ActionResult Edit(long? id)
         {
             if (id == null)
@@ -104,7 +122,8 @@ namespace MentProject.Controllers
 
             return View("AddEdit", rewardModel);
         }
-        
+
+        [Route("awards/{id:int}/delete")]
         public ActionResult Delete(long? id)
         {
             if (id == null)

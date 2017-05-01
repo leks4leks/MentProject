@@ -20,9 +20,18 @@ namespace MentRepository.Repository
             return UserRepMapper.UserToUserRepModelMapper(_db.Users.Where(_ => _.Id == id && _.IsDeleted == 0).FirstOrDefault());
         }
 
-        UsersRepModel IUserRepository.GetAllUsers()
+        UsersRepModel IUserRepository.GetAllUsers(string userName)
         {
-            return UserRepMapper.ListUserToListUserRepModelMapper(_db.Users.Where(_ => _.IsDeleted == 0).ToList());
+            if (!string.IsNullOrEmpty(userName))
+            {
+                var uName = userName.Split('_').ToList();
+                if (uName.Count > 1)
+                    return UserRepMapper.ListUserToListUserRepModelMapper(_db.Users.Where(_ => _.IsDeleted == 0 && _.Name == userName).ToList(), true);
+                else
+                    return UserRepMapper.ListUserToListUserRepModelMapper(_db.Users.Where(_ => _.IsDeleted == 0 && _.Name.Contains(userName)).ToList());
+            }
+            else
+                return UserRepMapper.ListUserToListUserRepModelMapper(_db.Users.Where(_ => _.IsDeleted == 0).ToList());
         }
 
         bool IUserRepository.SaveUser(UserRepModel user)

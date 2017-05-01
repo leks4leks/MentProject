@@ -18,41 +18,47 @@ namespace MentProject.Controllers
         {
             this._repository = repository;
         }
-
-        private Users LoadRegistry()
-        {
-            return UserMapper.ListUserRepModelToListUserModelMapper(_repository.GetAllUsers());
-        }
-
+        
         public ActionResult Index()
         {
             return View(LoadRegistry());
         }
+
+        #region Actions
+        [ActionName("GetUserByName")]
+        public ActionResult GetUserByName(string userName = null)
+        {
+            var users = LoadRegistry(userName);
+            if (users.Count == 1 && !string.IsNullOrEmpty(userName))
+                return View("AddEdit", users.FirstOrDefault());
+            return View("Index", users);
+        }
+
+        [ActionName("GetUserById")]
+        public ActionResult GetUserById(int id = 0)
+        {
+            return View("AddEdit", GetUserByIdExt(id));
+        }
+
+        [ActionName("CreateUser")]
+        public ActionResult CreateUser()
+        {
+            return Create();
+        }
+
+        [ActionName("GetUserForEdit")]
+        public ActionResult GetUserForEdit(int id = 0)
+        {
+            return Edit(id);
+        }
+
+        [ActionName("GetUserForDelete")]
+        public ActionResult GetUserForDelete(int id = 0)
+        {
+            return Delete(id);
+        }
+        #endregion
         
-
-        public ActionResult Details(long? id)
-        {
-            if (id == null)
-                return HttpStatus.BadStatus();
-
-            UserModel userModel = GetUserById(id);
-
-            if (userModel == null)
-                return HttpNotFound();
-
-            return View(userModel);
-        }
-
-        private UserModel GetUserById(long? id)
-        {
-            return UserMapper.UserRepModelToUserModelMapper(_repository.GetUserById((long)id));
-        }
-
-        public ActionResult Create()
-        {
-            return View("AddEdit",  new UserModel());
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AddEdit(HttpPostedFileBase file, [Bind(Include = "Id,Name,BDay,Photo")] UserModel userModel)
@@ -66,13 +72,13 @@ namespace MentProject.Controllers
 
             return View("AddEdit", userModel);
         }
-
-        public ActionResult Edit(int? id)
+        
+        public ActionResult Edit(int id = 0)
         {
-            if (id == null)
+            if (id == 0)
                 return HttpStatus.BadStatus();
 
-            UserModel userModel = GetUserById(id);
+            UserModel userModel = GetUserByIdExt(id);
 
             if (userModel == null)
                 return HttpNotFound();
@@ -80,12 +86,12 @@ namespace MentProject.Controllers
             return View("AddEdit", userModel);
         }
 
-        public ActionResult Delete(long? id)
+        public ActionResult Delete(long id = 0)
         {
-            if (id == null)
+            if (id == 0)
                 return HttpStatus.BadStatus();
 
-            UserModel userModel = GetUserById(id);
+            UserModel userModel = GetUserByIdExt(id);
 
             if (userModel == null)
                 return HttpNotFound();
@@ -93,12 +99,30 @@ namespace MentProject.Controllers
             return View(userModel);
         }
 
+        public ActionResult Details(long? id)
+        {
+            if (id == null)
+                return HttpStatus.BadStatus();
+
+            UserModel userModel = GetUserByIdExt(id);
+
+            if (userModel == null)
+                return HttpNotFound();
+
+            return View(userModel);
+        }
+
+        public ActionResult Create()
+        {
+            return View("AddEdit", new UserModel());
+        }
+
         public ActionResult SetRaward(long? id)
         {
             if (id == null)
                 return HttpStatus.BadStatus();
 
-            UserModel userModel = GetUserById(id);
+            UserModel userModel = GetUserByIdExt(id);
 
             if (userModel == null)
                 return HttpNotFound();
@@ -112,6 +136,15 @@ namespace MentProject.Controllers
         {
             _repository.DeleteUser(id);
             return RedirectToAction("Index");
+        }
+
+        private UserModel GetUserByIdExt(long? id)
+        {
+            return UserMapper.UserRepModelToUserModelMapper(_repository.GetUserById((long)id));
+        }
+        private Users LoadRegistry(string userName = null)
+        {
+            return UserMapper.ListUserRepModelToListUserModelMapper(_repository.GetAllUsers(userName));
         }
     }
 }

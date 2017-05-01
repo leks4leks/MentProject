@@ -48,11 +48,18 @@ namespace MentProject.Helper
         /// </summary>
         /// <param name="users">List<User></param>
         /// <returns>UsersRepModel</returns>
-        public static UsersRepModel ListUserToListUserRepModelMapper(List<User> users)
+        public static UsersRepModel ListUserToListUserRepModelMapper(List<User> users, bool onlyOne = false)
         {
             var res = new UsersRepModel();
+            if (onlyOne)
+            {
+                res.Add(UserToUserRepModelMapper(users.FirstOrDefault()));
+                return res;
+            }
+
             foreach (var item in users)
                 res.Add(UserToUserRepModelMapper(item));
+
             return res;
         }
     }

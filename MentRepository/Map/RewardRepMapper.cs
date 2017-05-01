@@ -48,9 +48,16 @@ namespace MentProject.Helper
         /// </summary>
         /// <param name="rews">List<Reward></param>
         /// <returns>RewardsRepModel</returns>
-        public static RewardsRepModel ListRewardToListRewardsRepModelMapper(List<Reward> rews)
+        public static RewardsRepModel ListRewardToListRewardsRepModelMapper(List<Reward> rews, bool onlyOne = false)
         {
             var res = new RewardsRepModel();
+
+            if (onlyOne)
+            {
+                res.Add(RewardToRewardRepModelMapper(rews.FirstOrDefault()));
+                return res;
+            }
+
             foreach (var item in rews)
                 res.Add(RewardToRewardRepModelMapper(item));
             return res;

@@ -20,14 +20,25 @@ namespace MentRepository.Repository
             return RewardRepMapper.RewardToRewardRepModelMapper(_db.Rewards.Where(_ => _.Id == id && _.IsDeleted == 0).FirstOrDefault());
         }
 
-        RewardsRepModel IRewardRepository.GetAllRewards(long userId)
+        RewardsRepModel IRewardRepository.GetAllRewards(long userId, string rewName)
         {
             var model = RewardRepMapper.ListRewardToListRewardsRepModelMapper(_db.Rewards.Where(_ => _.IsDeleted == 0).ToList());
-            var userRedards = _db.UserInRewards.Where(_ => _.UserId == userId && _.IsDeleted == 0).Select(_ => _.RewardId).ToList();
-            foreach (var item in model)
+            if (userId != 0)
             {
-                if (userRedards.Contains(item.Id))
-                    item.IsSetRewardForUser = true;
+                var userRedards = _db.UserInRewards.Where(_ => _.UserId == userId && _.IsDeleted == 0).Select(_ => _.RewardId).ToList();
+                foreach (var item in model)
+                {
+                    if (userRedards.Contains(item.Id))
+                        item.IsSetRewardForUser = true;
+                }
+            }
+            if (!string.IsNullOrEmpty(rewName))
+            {
+                var rName = rewName.Split('_').ToList();
+                if (rName.Count > 1)
+                    return RewardRepMapper.ListRewardToListRewardsRepModelMapper(_db.Rewards.Where(_ => _.IsDeleted == 0 && _.Title == rewName).ToList(), true);
+                else
+                    return RewardRepMapper.ListRewardToListRewardsRepModelMapper(_db.Rewards.Where(_ => _.IsDeleted == 0 && _.Title.Contains(rewName)).ToList());
             }
             return model;
         }

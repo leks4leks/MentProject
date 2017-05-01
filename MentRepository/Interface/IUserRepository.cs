@@ -8,7 +8,7 @@ namespace MentRepository.Repository
     public interface IUserRepository
     {
         UserRepModel GetUserById(long id);
-        UsersRepModel GetAllUsers();
+        UsersRepModel GetAllUsers(string userName);
         bool SaveUser(UserRepModel user);
         bool DeleteUser(long id);
     }

@@ -8,7 +8,7 @@ namespace MentRepository.Repository
     public interface IRewardRepository
     {
         RewardRepModel GetRewardById(long id);
-        RewardsRepModel GetAllRewards(long userId);
+        RewardsRepModel GetAllRewards(long userId, string rewName);
         bool SaveReward(RewardRepModel user);
         bool DeleteReward(long id);
         bool SaveUserInReward(Dictionary<int, int> rew);
