@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace MentProject.Controllers
 {
+    [HandleError()]
     public class RewardController : Controller
     {
         private IRewardRepository _repository;

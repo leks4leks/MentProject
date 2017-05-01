@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace MentProject.Controllers
 {
+    [HandleError()]
     public class UserController : Controller
     {
         private IUserRepository _repository;

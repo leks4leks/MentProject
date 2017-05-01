@@ -212,6 +212,7 @@
     <Content Include="Views\Reward\Delete.cshtml" />
     <Content Include="Views\Reward\Details.cshtml" />
     <Content Include="Views\Reward\SetForm.cshtml" />
+    <Content Include="Error.html" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
