@@ -116,12 +116,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interface\IRewardRepository.cs" />
+    <Compile Include="Interface\ILogRepository.cs" />
     <Compile Include="Map\RewardRepMapper.cs" />
+    <Compile Include="Map\LogRepMapper.cs" />
     <Compile Include="Map\UserRepMapper.cs" />
     <Compile Include="Interface\IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepModel\RewardRepModel.cs" />
+    <Compile Include="RepModel\LogRepModel.cs" />
     <Compile Include="RepModel\UserRepModel.cs" />
+    <Compile Include="Repository\LogRepository.cs" />
     <Compile Include="Repository\RewardRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
   </ItemGroup>

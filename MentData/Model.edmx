@@ -5,6 +5,20 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="MentDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="LogID" />
+          </Key>
+          <Property Name="LogID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nchar" MaxLength="100" />
+          <Property Name="IP" Type="nchar" MaxLength="20" />
+          <Property Name="Controller" Type="nchar" MaxLength="200" />
+          <Property Name="Action" Type="nchar" MaxLength="100" />
+          <Property Name="Field" Type="nchar" MaxLength="100" />
+          <Property Name="Value" Type="nchar" MaxLength="1000" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="GUID" Type="nchar" MaxLength="40" />
+        </EntityType>
         <EntityType Name="RefRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -52,6 +66,7 @@
           <Property Name="IsDeleted" Type="int" Nullable="false" />
         </EntityType>
         <EntityContainer Name="MentDBModelStoreContainer">
+          <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RefRoles" EntityType="Self.RefRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rewards" EntityType="Self.Rewards" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserInReward" EntityType="Self.UserInReward" Schema="dbo" store:Type="Tables" />
@@ -105,6 +120,7 @@
           <EntitySet Name="UserRoles" EntityType="Self.UserRole" />
           <EntitySet Name="Users" EntityType="Self.User" />
           <EntitySet Name="UserInRewards" EntityType="MentDBModel.UserInReward" />
+          <EntitySet Name="Logs" EntityType="MentDBModel.Log" />
         </EntityContainer>
         <EntityType Name="UserInReward">
           <Key>
@@ -114,6 +130,20 @@
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="RewardId" Type="Int32" Nullable="false" />
           <Property Name="IsDeleted" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="LogID" />
+          </Key>
+          <Property Name="LogID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="IP" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Controller" Type="String" MaxLength="200" FixedLength="true" Unicode="true" />
+          <Property Name="Action" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="Field" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="Value" Type="String" MaxLength="1000" FixedLength="true" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="GUID" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -169,6 +199,21 @@
                 <ScalarProperty Name="RewardId" ColumnName="RewardId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Logs">
+            <EntityTypeMapping TypeName="MentDBModel.Log">
+              <MappingFragment StoreEntitySet="Log">
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Field" ColumnName="Field" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="Controller" ColumnName="Controller" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="LogID" ColumnName="LogID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
