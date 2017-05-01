@@ -6,6 +6,7 @@
 
 @RenderBody()
 
+@RenderSection("scripts", required: false)
 @section scripts {
     <script>
     function readURL(input) {
@@ -20,7 +21,7 @@
         }
     }
 
-    $("#file").change(function () {
+    $("#File").change(function () {
         readURL(this);
     });
     </script>

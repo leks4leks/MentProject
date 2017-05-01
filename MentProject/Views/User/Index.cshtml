@@ -30,10 +30,10 @@
                 @Html.DisplayName(item.Id.ToString())
             </th>
             <td>
-                @Html.ActionLink("Del", "DeleteUser", "User", new { id = item.Id }, null)
-            </td>
             <td>
-                @Html.ActionLink("Edit", "Index", "WorkWithUser", new { id = item.Id }, null)
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
             </td>
             <td>
                 @Html.DisplayName(item.Name)
@@ -50,7 +50,7 @@
         </tr>
     }
     <tr>
-        <th>@Html.ActionLink("Add New User", "Index", "WorkWithUser", new { id = 0 }, null)</th>
+        <th>@Html.ActionLink("Add New User", "Create")</th>
     </tr>
 </table>
 

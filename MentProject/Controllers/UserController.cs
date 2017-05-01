@@ -4,6 +4,7 @@ using MentRepository.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -27,11 +28,77 @@ namespace MentProject.Controllers
         {
             return View(LoadRegistry());
         }
+        
 
-        public ActionResult DeleteUser(long id)
+        public ActionResult Details(long? id)
+        {
+            if (id == null)
+                return HttpStatus.BadStatus();
+
+            UserModel userModel = GetUserById(id);
+
+            if (userModel == null)
+                return HttpNotFound();
+
+            return View(userModel);
+        }
+
+        private UserModel GetUserById(long? id)
+        {
+            return UserMapper.UserRepModelToUserModelMapper(_repository.GetUserById((long)id));
+        }
+
+        public ActionResult Create()
+        {
+            return View("AddEdit",  new UserModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddEdit(HttpPostedFileBase file, [Bind(Include = "Id,Name,BDay,Photo")] UserModel userModel)
+        {            
+            if (ModelState.IsValid)
+            {
+                userModel.Photo = FileHelper.SaveFile(file, Server.MapPath("~/Images/"));
+                _repository.SaveUser(UserMapper.UserModelToUserRepModelMapper(userModel));
+                return RedirectToAction("Index");
+            }
+
+            return View("AddEdit", userModel);
+        }
+
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+                return HttpStatus.BadStatus();
+
+            UserModel userModel = GetUserById(id);
+
+            if (userModel == null)
+                return HttpNotFound();
+
+            return View("AddEdit", userModel);
+        }
+
+        public ActionResult Delete(long? id)
+        {
+            if (id == null)
+                return HttpStatus.BadStatus();
+
+            UserModel userModel = GetUserById(id);
+
+            if (userModel == null)
+                return HttpNotFound();
+
+            return View(userModel);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(long id)
         {
             _repository.DeleteUser(id);
-            return View("Index", LoadRegistry());
+            return RedirectToAction("Index");
         }
     }
 }

@@ -12,10 +12,22 @@ namespace MentProject.Models
 
     public class RewardModel
     {
+        public RewardModel()
+        {
+            Description = string.Empty;
+        }
+
         public int Id { get; set; }
+        [Required]
+        [MaxLength(50)]
+        [RegularExpression(@"^[a-zA-Z0-9''-'\s\-]{1,50}$", ErrorMessage = "Title is incorrect")]
         public string Title { get; set; }
-        public string Description { get; set; }
-        public string Photo { get; set; }
+        [MaxLength(250)]
+        public string Description { get; set; }        
+        public string Photo { get; set; }     
+        [Required]   
+        public HttpPostedFileBase File { get; set; }
         public int IsDeleted { get; set; }
+        
     }
 }

@@ -10,7 +10,6 @@
     <tr>
         <th>#</th>
         <th></th>
-        <th></th>
         <th>
             @Html.DisplayName("Title")
         </th>
@@ -27,16 +26,16 @@
                 @Html.DisplayName(item.Id.ToString())
             </th>
             <td>
-                @Html.ActionLink("Del", "DeleteReward", "Reward", new { id = item.Id }, null)
-            </td>
             <td>
-                @Html.ActionLink("Edit", "Index", "WorkWithReward", new { id = item.Id }, null)
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
             </td>
             <td>
                 @Html.DisplayName(item.Title)
             </td>
             <td>
-                @Html.DisplayName(item.Description)
+                @Html.DisplayName(item.Description ?? string.Empty)
             </td>
             <td>
                 <img src="~/images/@item.Photo" width="50" height="50" />
@@ -44,7 +43,7 @@
         </tr>
     }
     <tr>
-        <th>@Html.ActionLink("Add New Reward", "Index", "WorkWithReward", new { id = 0 }, null)</th>
+        <th>@Html.ActionLink("Add New Reward", "Create")</th>
     </tr>
 </table>
 
