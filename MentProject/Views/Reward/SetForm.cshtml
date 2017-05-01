@@ -1,0 +1,50 @@
+﻿@model List<RewardModel>
+@{
+    ViewBag.Title = "Reward Registry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Set Reward</h2>
+
+@using (Html.BeginForm("SetRewardForUser", "Reward"))
+{
+    @Html.AntiForgeryToken()
+    <table class="table">
+        <tr>
+            <th width="200"></th>
+            <th>
+                @Html.DisplayName("Title")
+            </th>
+            <th>
+                @Html.DisplayName("Photo")
+            </th>
+            <th></th>
+        </tr>
+
+        @for(int i = 0; i < @Model.Count; i++)
+        {
+            @Html.HiddenFor(model => @Model[i].UserId)
+            @Html.HiddenFor(model => @Model[i].Id)
+            <tr>
+                <th scope="row">
+                    @Html.CheckBoxFor(m => m[i].IsSetRewardForUser)
+                </th>       
+                <td>
+                    @Html.DisplayFor(m => m[i].Title)
+                </td>
+                <td>
+                    <img src="~/images/@Model[i].Photo" width="50" height="50" />
+                </td>
+            </tr>
+        }
+        <tr>
+            <th>
+                <input type="submit" value="Set Reward" class="btn btn-default" />
+                @Html.ActionLink("Back to List", "Index", "User")
+            </th>
+        </tr>
+    </table>
+   
+}
+
+

@@ -28,6 +28,8 @@ namespace MentProject.Models
         [Required]   
         public HttpPostedFileBase File { get; set; }
         public int IsDeleted { get; set; }
-        
+        public bool IsSetRewardForUser { get; set; }
+        public int UserId { get; set; }
+
     }
 }

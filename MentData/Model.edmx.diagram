@@ -9,6 +9,7 @@
         <EntityTypeShape EntityType="MentDBModel.Reward" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MentDBModel.UserRole" Width="1.5" PointX="1.125" PointY="2.25" IsExpanded="true" />
         <EntityTypeShape EntityType="MentDBModel.User" Width="1.5" PointX="4.625" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MentDBModel.UserInReward" Width="1.5" PointX="6.75" PointY="1.25" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

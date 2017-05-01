@@ -23,6 +23,15 @@
           <Property Name="Photo" Type="varchar" MaxLength="50" />
           <Property Name="IsDeleted" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="UserInReward">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="RewardId" Type="int" Nullable="false" />
+          <Property Name="IsDeleted" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="UserRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -45,6 +54,7 @@
         <EntityContainer Name="MentDBModelStoreContainer">
           <EntitySet Name="RefRoles" EntityType="Self.RefRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rewards" EntityType="Self.Rewards" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserInReward" EntityType="Self.UserInReward" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
@@ -94,7 +104,17 @@
           <EntitySet Name="Rewards" EntityType="Self.Reward" />
           <EntitySet Name="UserRoles" EntityType="Self.UserRole" />
           <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="UserInRewards" EntityType="MentDBModel.UserInReward" />
         </EntityContainer>
+        <EntityType Name="UserInReward">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="RewardId" Type="Int32" Nullable="false" />
+          <Property Name="IsDeleted" Type="Int32" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -139,6 +159,16 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="BDay" ColumnName="BDay" />
                 <ScalarProperty Name="Photo" ColumnName="Photo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInRewards">
+            <EntityTypeMapping TypeName="MentDBModel.UserInReward">
+              <MappingFragment StoreEntitySet="UserInReward">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="RewardId" ColumnName="RewardId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

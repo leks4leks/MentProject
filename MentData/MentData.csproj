@@ -165,6 +165,9 @@
     <Compile Include="User.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="UserInReward.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="UserRole.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

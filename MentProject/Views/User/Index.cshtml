@@ -21,6 +21,7 @@
             @Html.DisplayName("Age")
         </th>
         <th></th>
+        <th></th>
     </tr>
 
     @foreach (var item in Model)
@@ -29,7 +30,6 @@
             <th scope="row">
                 @Html.DisplayName(item.Id.ToString())
             </th>
-            <td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |
@@ -47,7 +47,10 @@
             <td>
                 <img src="~/images/@item.Photo" width="50" height="50" />
             </td>
-        </tr>
+            <td>
+                @Html.ActionLink("Set/Look Raward", "SetRaward", new { id = item.Id })
+            </td>
+</tr>
     }
     <tr>
         <th>@Html.ActionLink("Add New User", "Create")</th>

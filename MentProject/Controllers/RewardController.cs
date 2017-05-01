@@ -16,12 +16,12 @@ namespace MentProject.Controllers
 
         public RewardController(IRewardRepository repository)
         {
-            this._repository = repository;
+            _repository = repository;
         }
 
-        private Rewards LoadRegistry()
+        private Rewards LoadRegistry(int userId = 0)
         {
-            return RewardMapper.RewardsRepModelToRewardsMapper(_repository.GetAllRewards());
+            return RewardMapper.RewardsRepModelToRewardsMapper(_repository.GetAllRewards(userId), userId);
         }
 
         public ActionResult Index()
@@ -50,7 +50,31 @@ namespace MentProject.Controllers
         {
             return View("AddEdit", new RewardModel());
         }
-        
+
+        public ActionResult SetForm(int? id)
+        {
+            if (id == null)
+                return HttpStatus.BadStatus();
+
+            var rewardModel = LoadRegistry((int)id);
+
+            if (rewardModel == null)
+                return HttpNotFound();
+
+            return View(rewardModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SetRewardForUser(List<RewardModel> rew)
+        {
+            var sendData = new Dictionary<int, int>();
+            foreach (var item in rew.Where(_ => _.IsSetRewardForUser))
+                sendData.Add(item.Id, item.UserId);
+            _repository.SaveUserInReward(sendData);
+            return Redirect(@"\User");
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AddEdit(HttpPostedFileBase file, [Bind(Include = "Id,Title,Description,Photo,File")] RewardModel rewardModel)

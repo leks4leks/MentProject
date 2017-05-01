@@ -20,9 +20,28 @@ namespace MentRepository.Repository
             return RewardRepMapper.RewardToRewardRepModelMapper(_db.Rewards.Where(_ => _.Id == id && _.IsDeleted == 0).FirstOrDefault());
         }
 
-        RewardsRepModel IRewardRepository.GetAllRewards()
+        RewardsRepModel IRewardRepository.GetAllRewards(long userId)
         {
-            return RewardRepMapper.ListRewardToListRewardsRepModelMapper(_db.Rewards.Where(_ => _.IsDeleted == 0).ToList());
+            var model = RewardRepMapper.ListRewardToListRewardsRepModelMapper(_db.Rewards.Where(_ => _.IsDeleted == 0).ToList());
+            var userRedards = _db.UserInRewards.Where(_ => _.UserId == userId && _.IsDeleted == 0).Select(_ => _.RewardId).ToList();
+            foreach (var item in model)
+            {
+                if (userRedards.Contains(item.Id))
+                    item.IsSetRewardForUser = true;
+            }
+            return model;
+        }
+
+        bool IRewardRepository.SaveUserInReward(Dictionary<int, int> rew)
+        {
+            var userId = rew.FirstOrDefault();
+            var oldRew = _db.UserInRewards.Where(_ => _.UserId == userId.Value).ToList();
+            if(oldRew.Count > 0)
+                oldRew.ForEach(_ => _.IsDeleted = 1);
+            foreach (var item in rew)
+                _db.Set<UserInReward>().AddOrUpdate(new UserInReward { RewardId = item.Key, UserId = item.Value });
+            _db.SaveChanges();
+            return true;
         }
 
         bool IRewardRepository.SaveReward(RewardRepModel rew)

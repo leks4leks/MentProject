@@ -29,5 +29,6 @@ namespace MentData
         public virtual DbSet<Reward> Rewards { get; set; }
         public virtual DbSet<UserRole> UserRoles { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserInReward> UserInRewards { get; set; }
     }
 }

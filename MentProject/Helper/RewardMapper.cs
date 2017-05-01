@@ -14,7 +14,7 @@ namespace MentProject.Helper
         /// </summary>
         /// <param name="rewRep">RewardRepModel</param>
         /// <returns>RewardModel</returns>
-        public static RewardModel RewardRepModelToRewardModelMapper(RewardRepModel rewRep)
+        public static RewardModel RewardRepModelToRewardModelMapper(RewardRepModel rewRep, int userId = 0)
         {
             return new RewardModel()
             {
@@ -22,7 +22,9 @@ namespace MentProject.Helper
                 Title = rewRep.Title,
                 Description = rewRep.Description,
                 Photo = rewRep.Photo,
-                IsDeleted = rewRep.IsDeleted
+                IsDeleted = rewRep.IsDeleted,
+                IsSetRewardForUser = rewRep.IsSetRewardForUser,
+                UserId = userId
             };
         }
 
@@ -39,7 +41,8 @@ namespace MentProject.Helper
                 Title = rew.Title,
                 Description = rew.Description,
                 Photo = rew.Photo,
-                IsDeleted = rew.IsDeleted
+                IsDeleted = rew.IsDeleted,
+                IsSetRewardForUser = rew.IsSetRewardForUser
             };
         }
 
@@ -48,11 +51,11 @@ namespace MentProject.Helper
         /// </summary>
         /// <param name="rewsRep">RewardsRepModel</param>
         /// <returns>Rewards</returns>
-        public static Rewards RewardsRepModelToRewardsMapper(RewardsRepModel rewsRep)
+        public static Rewards RewardsRepModelToRewardsMapper(RewardsRepModel rewsRep, int userId = 0)
         {
             var res = new Rewards();
             foreach (var item in rewsRep)
-                res.Add(RewardRepModelToRewardModelMapper(item));
+                res.Add(RewardRepModelToRewardModelMapper(item, userId));
             return res;
         }
     }

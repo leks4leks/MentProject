@@ -15,5 +15,6 @@ namespace MentRepository.RepModel
         public string Description { get; set; }
         public string Photo { get; set; }
         public int IsDeleted { get; set; }
+        public bool IsSetRewardForUser { get; set; }
     }
 }
