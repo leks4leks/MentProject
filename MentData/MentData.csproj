@@ -143,6 +143,7 @@
     <Compile Include="Acc.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="AccModel.cs" />
     <Compile Include="AccRole.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
