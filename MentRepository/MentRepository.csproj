@@ -115,16 +115,20 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface\IAccRepository.cs" />
     <Compile Include="Interface\IRewardRepository.cs" />
     <Compile Include="Interface\ILogRepository.cs" />
     <Compile Include="Map\RewardRepMapper.cs" />
     <Compile Include="Map\LogRepMapper.cs" />
+    <Compile Include="Map\AccRepMapper.cs" />
     <Compile Include="Map\UserRepMapper.cs" />
     <Compile Include="Interface\IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepModel\RewardRepModel.cs" />
     <Compile Include="RepModel\LogRepModel.cs" />
+    <Compile Include="RepModel\AccRepModel.cs" />
     <Compile Include="RepModel\UserRepModel.cs" />
+    <Compile Include="Repository\AccRepository.cs" />
     <Compile Include="Repository\LogRepository.cs" />
     <Compile Include="Repository\RewardRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />

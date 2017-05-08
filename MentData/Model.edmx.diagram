@@ -7,10 +7,11 @@
       <Diagram DiagramId="3fa7c8d91ea5432ea90f189a6f693570" Name="Diagram1">
         <EntityTypeShape EntityType="MentDBModel.RefRole" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MentDBModel.Reward" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MentDBModel.UserRole" Width="1.5" PointX="1.125" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="MentDBModel.User" Width="1.5" PointX="4.625" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="MentDBModel.UserInReward" Width="1.5" PointX="6.75" PointY="1.25" />
-        <EntityTypeShape EntityType="MentDBModel.Log" Width="1.5" PointX="10.25" PointY="1.125" />
+        <EntityTypeShape EntityType="MentDBModel.User" Width="1.5" PointX="4.625" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MentDBModel.UserInReward" Width="1.5" PointX="6.375" PointY="0.75" />
+        <EntityTypeShape EntityType="MentDBModel.Log" Width="1.5" PointX="8.125" PointY="0.75" />
+        <EntityTypeShape EntityType="MentDBModel.Acc" Width="1.5" PointX="9.625" PointY="5.5" />
+        <EntityTypeShape EntityType="MentDBModel.AccRole" Width="1.5" PointX="11.25" PointY="5.5" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -27,9 +27,10 @@ namespace MentData
     
         public virtual DbSet<RefRole> RefRoles { get; set; }
         public virtual DbSet<Reward> Rewards { get; set; }
-        public virtual DbSet<UserRole> UserRoles { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserInReward> UserInRewards { get; set; }
         public virtual DbSet<Log> Logs { get; set; }
+        public virtual DbSet<Acc> Accs { get; set; }
+        public virtual DbSet<AccRole> AccRoles { get; set; }
     }
 }
