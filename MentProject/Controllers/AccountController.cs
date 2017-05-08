@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using MentProject.Models;
 using MentProject;
 using Microsoft.Owin;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MentProject.Controllers
 {
@@ -96,10 +97,13 @@ namespace MentProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Login, Email = "email@mail.ru" };
+                var user = new ApplicationUser { UserName = model.Login, Email = Guid.NewGuid().ToString() + "@mail.ru" };
                 var result = await UserManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
+                    var r = UserManager.FindByName(model.Login);
+                    UserManager.AddToRole(r.Id, "user");
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);                    
                     return RedirectToAction("Index", "Home");
                 }

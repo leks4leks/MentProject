@@ -43,6 +43,18 @@ namespace MentRepository.Repository
             return model;
         }
 
+        RewardsRepModel IRewardRepository.GetRewardsByUser(long userId)
+        {
+            RewardsRepModel rez = new RewardsRepModel();
+            if (userId != 0)
+            {
+                var userRedards = _db.UserInRewards.Where(_ => _.UserId == userId && _.IsDeleted == 0).Select(_ => _.RewardId).ToList();
+                rez.AddRange(RewardRepMapper.ListRewardToListRewardsRepModelMapper(_db.Rewards.Where(_ => _.IsDeleted == 0).ToList())
+                            .Where(_ => userRedards.Contains(_.Id)));               
+            }           
+            return rez;
+        }
+
         bool IRewardRepository.SaveUserInReward(Dictionary<int, int> rew)
         {
             var userId = rew.FirstOrDefault();

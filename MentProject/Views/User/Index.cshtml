@@ -22,6 +22,7 @@
         </th>
         <th></th>
         <th></th>
+        <th></th>
     </tr>
 
     @foreach (var item in Model)
@@ -47,14 +48,29 @@
             <td>
                 <img src="~/images/@item.Photo" width="50" height="50" />
             </td>
-            <td>
-                @Html.ActionLink("Set/Look Raward", "SetRaward", new { id = item.Id })
-            </td>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <td>
+                    @Html.ActionLink("Look Raward", "LookRaward", new { id = item.Id })
+                </td>
+                if (User.IsInRole("admin"))
+                {
+                    <td>
+                        @Html.ActionLink("Set Raward", "SetRaward", new { id = item.Id })
+                    </td>
+                }
+            }
 </tr>
     }
-    <tr>
-        <th>@Html.ActionLink("Add New User", "Create")</th>
-    </tr>
+@if (User.Identity.IsAuthenticated)
+{
+    if (User.IsInRole("admin"))
+    {
+        <tr>
+            <th>@Html.ActionLink("Add New User", "Create")</th>
+        </tr>
+    }
+}
 </table>
 
 

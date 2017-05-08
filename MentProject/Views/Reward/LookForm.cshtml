@@ -1,0 +1,45 @@
+﻿@model List<RewardModel>
+@{
+    ViewBag.Title = "Reward Registry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Look Reward</h2>
+
+@using (Html.BeginForm("LookRewardForUser", "Reward"))
+{
+    @Html.AntiForgeryToken()
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayName("Title")
+            </th>
+            <th>
+                @Html.DisplayName("Photo")
+            </th>
+            <th></th>
+        </tr>
+
+        @for(int i = 0; i < @Model.Count; i++)
+        {
+            @Html.HiddenFor(model => @Model[i].UserId)
+            @Html.HiddenFor(model => @Model[i].Id)
+            <tr>                   
+                <td>
+                    @Html.DisplayFor(m => m[i].Title)
+                </td>
+                <td>
+                    <img src="~/images/@Model[i].Photo" width="50" height="50" />
+                </td>
+            </tr>
+        }
+        <tr>
+            <th>
+                @Html.ActionLink("Back to List", "Index", "User")
+            </th>
+        </tr>
+    </table>
+   
+}
+
+

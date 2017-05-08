@@ -131,6 +131,19 @@ namespace MentProject.Controllers
             return Redirect(@"\Reward\SetForm\" + id);
         }
 
+        public ActionResult LookRaward(long? id)
+        {
+            if (id == null)
+                return HttpStatus.BadStatus();
+
+            UserModel userModel = GetUserByIdExt(id);
+
+            if (userModel == null)
+                return HttpNotFound();
+
+            return Redirect(@"\Reward\LookForm\" + id);
+        }
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)

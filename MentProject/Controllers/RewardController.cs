@@ -24,6 +24,10 @@ namespace MentProject.Controllers
         {
             return RewardMapper.RewardsRepModelToRewardsMapper(_repository.GetAllRewards(userId, rewName), userId);
         }
+        private Rewards LoadRegistryForLook(int userId = 0)
+        {
+            return RewardMapper.RewardsRepModelToRewardsMapper(_repository.GetRewardsByUser(userId), userId);
+        }
 
         [Route("awards")]
         public ActionResult Index()
@@ -75,6 +79,19 @@ namespace MentProject.Controllers
                 return HttpStatus.BadStatus();
 
             var rewardModel = LoadRegistry((int)id);
+
+            if (rewardModel == null)
+                return HttpNotFound();
+
+            return View(rewardModel);
+        }
+
+        public ActionResult LookForm(int? id)
+        {
+            if (id == null)
+                return HttpStatus.BadStatus();
+
+            var rewardModel = LoadRegistryForLook((int)id);
 
             if (rewardModel == null)
                 return HttpNotFound();

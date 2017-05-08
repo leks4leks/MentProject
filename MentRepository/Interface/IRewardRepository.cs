@@ -9,6 +9,7 @@ namespace MentRepository.Repository
     {
         RewardRepModel GetRewardById(long id);
         RewardsRepModel GetAllRewards(long userId, string rewName);
+        RewardsRepModel GetRewardsByUser(long userId);        
         bool SaveReward(RewardRepModel user);
         bool DeleteReward(long id);
         bool SaveUserInReward(Dictionary<int, int> rew);
