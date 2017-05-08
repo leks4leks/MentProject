@@ -1,0 +1,43 @@
+﻿﻿@model Accs
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Manage Roles</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Name")
+        </th>        
+        <th>
+            @Html.DisplayName("In admin role")
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <th scope="row">
+                @Html.DisplayName(item.Login)
+            </th>
+            <td> 
+                @if (item.HasAdminRole)
+                {
+                    @Html.DisplayName("+")
+                }
+                else
+                {
+                    @Html.DisplayName("-")
+                }
+            </td>    
+            <td>
+                @Html.ActionLink("Delete admin role", "DeleteAdminRole", new { id = item.Id })  |  
+                @Html.ActionLink("Add admin role", "AddAdminRole", new { id = item.Id })
+            </td>                 
+        </tr>
+    }
+</table>

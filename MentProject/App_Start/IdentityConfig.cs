@@ -30,8 +30,14 @@ namespace MentProject
             {
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
+            }; 
+            
+            // Configure validation logic for passwords 
+            manager.PasswordValidator = new PasswordValidator
+            {
+                RequiredLength = 4,
             };
-  
+
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {

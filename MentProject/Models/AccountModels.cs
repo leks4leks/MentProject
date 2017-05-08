@@ -2,12 +2,20 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace MentProject.Models
-{    
+{
+    public class Accs : List<LoginViewModel>
+    { }
     public class LoginViewModel
     {
         [Required]
         [Display(Name = "Login")]
         public string Login { get; set; }
+        
+        [Display(Name = "Id")]
+        public string Id { get; set; }
+
+        [Display(Name = "HasAdminRole")]
+        public bool HasAdminRole { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

@@ -25,6 +25,18 @@ namespace MentProject.Controllers
         {
         }
 
+        public ActionResult Index()
+        {
+            return View(GetAccountsForCheckAdminRole());
+        }
+
+        private Accs GetAccountsForCheckAdminRole()
+        {
+            var acc = new Accs();
+            UserManager.Users.ToList().ForEach(_ => acc.Add(new LoginViewModel() { Login = _.UserName, Id = _.Id, HasAdminRole = _.Roles.Any(r => r.RoleId == "A8FB533D-C8DD-4366-A450-93D5D48D199D") }));
+            return acc;
+        }
+
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
             UserManager = userManager;
@@ -112,7 +124,18 @@ namespace MentProject.Controllers
             
             return View(model);
         }
-  
+
+        public ActionResult DeleteAdminRole(string id)
+        {
+            UserManager.RemoveFromRole(id, "admin");
+            return View("Index", GetAccountsForCheckAdminRole());
+        }
+        public ActionResult AddAdminRole(string id)
+        {
+            UserManager.AddToRole(id, "admin");
+            return View("Index", GetAccountsForCheckAdminRole());
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
