@@ -1,0 +1,27 @@
+﻿@{
+	ViewBag.Title = "Hidden";
+}
+
+<h2>States</h2>
+
+<div>Количество посещений:</div>
+@ViewBag.Counter
+
+<div>
+	Request
+	@Html.ActionLink("+1", "RequestString", new { counter = ViewBag.Counter })
+</div>
+
+<div>
+	Hidden field
+	<form action="/States/Hidden" method="get">
+		<input type="hidden" name="counter" value="@ViewBag.Counter" />
+		<input type="submit" value="+1" />
+	</form>
+</div>
+
+<script type="text/javascript">
+	sessionStorage.setItem('key', 'value');
+	sessionStorage.getItem('key');
+</script>
+

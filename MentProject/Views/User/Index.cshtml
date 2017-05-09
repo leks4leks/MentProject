@@ -64,7 +64,7 @@
     }
 @if (User.Identity.IsAuthenticated)
 {
-    if (User.IsInRole("admin"))
+    if (User.IsInRole("admin") || User.IsInRole("aspadmin"))
     {
         <tr>
             <th>@Html.ActionLink("Add New User", "Create")</th>

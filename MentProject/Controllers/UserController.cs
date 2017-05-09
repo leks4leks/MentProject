@@ -67,7 +67,23 @@ namespace MentProject.Controllers
             if (ModelState.IsValid)
             {
                 userModel.Photo = FileHelper.SaveFile(file, Server.MapPath("~/Images/"));
-                _repository.SaveUser(UserMapper.UserModelToUserRepModelMapper(userModel));
+                if (User.IsInRole("aspadmin"))
+                {
+                    if (Session["Users"] == null)
+                    {
+                        List<UserModel> users = new List<UserModel>();
+                        users.Add(userModel);
+                        Session.Add("Users", users);
+                    }
+                    else
+                    {
+                        ((List<UserModel>)Session["Users"]).Add(userModel);
+                    }
+                }
+                else
+                {
+                    _repository.SaveUser(UserMapper.UserModelToUserRepModelMapper(userModel));
+                }
                 return RedirectToAction("Index");
             }
 
@@ -158,7 +174,12 @@ namespace MentProject.Controllers
         }
         private Users LoadRegistry(string userName = null)
         {
-            return UserMapper.ListUserRepModelToListUserModelMapper(_repository.GetAllUsers(userName));
+            var users = UserMapper.ListUserRepModelToListUserModelMapper(_repository.GetAllUsers(userName));
+            if (Session["Users"] != null)
+            {
+                users.AddRange(((List<UserModel>)Session["Users"]));
+            }
+            return users;
         }
     }
 }

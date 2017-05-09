@@ -22,7 +22,12 @@ namespace MentProject.Controllers
 
         private Rewards LoadRegistry(int userId = 0, string rewName = null)
         {
-            return RewardMapper.RewardsRepModelToRewardsMapper(_repository.GetAllRewards(userId, rewName), userId);
+            var rew = RewardMapper.RewardsRepModelToRewardsMapper(_repository.GetAllRewards(userId, rewName), userId);
+            if (Session["Rewards"] != null)
+            {
+                rew.AddRange(((List<RewardModel>)Session["Rewards"]));
+            }
+            return rew;
         }
         private Rewards LoadRegistryForLook(int userId = 0)
         {
@@ -120,7 +125,24 @@ namespace MentProject.Controllers
             if (ModelState.IsValid)
             {
                 rewardModel.Photo = FileHelper.SaveFile(file, Server.MapPath("~/Images/"));
-                _repository.SaveReward(RewardMapper.RewardModelToRewardRepModelMapper(rewardModel));
+                if (User.IsInRole("aspadmin"))
+                {
+                    if (Session["Rewards"] == null)
+                    {
+                        List<RewardModel> rews = new List<RewardModel>();
+                        rews.Add(rewardModel);
+                        Session.Add("Rewards", rews);
+                    }
+                    else
+                    {
+                        ((List<RewardModel>)Session["Rewards"]).Add(rewardModel);
+                    }
+                    
+                }
+                else
+                {
+                    _repository.SaveReward(RewardMapper.RewardModelToRewardRepModelMapper(rewardModel));
+                }
                 return RedirectToAction("Index");
             }
 

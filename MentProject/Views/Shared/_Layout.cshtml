@@ -24,10 +24,14 @@
                     <li>@Html.ActionLink("User Registry", "Index", "User")</li>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        if (User.IsInRole("admin"))
+                        if (User.IsInRole("admin") || User.IsInRole("aspadmin"))
                         {
                             <li>@Html.ActionLink("Reward Registry", "Index", "Reward")</li>
                             <li>@Html.ActionLink("Manage Roles", "Index", "Account")</li>
+                            if (Session["Users"] != null || Session["Rewards"] != null)
+                            {
+                                <li>@Html.ActionLink("Submit changes", "Submit", "AspAdmin")</li>
+                            }
                         }
                     }
                 </ul>

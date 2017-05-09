@@ -34,10 +34,13 @@
                     @Html.DisplayName("-")
                 }
             </td>    
-            <td>
-                @Html.ActionLink("Delete admin role", "DeleteAdminRole", new { id = item.Id })  |  
-                @Html.ActionLink("Add admin role", "AddAdminRole", new { id = item.Id })
-            </td>                 
+            @if (User.IsInRole("admin"))
+            {
+                <td>
+                    @Html.ActionLink("Delete admin role", "DeleteAdminRole", new { id = item.Id })  |  
+                    @Html.ActionLink("Add admin role", "AddAdminRole", new { id = item.Id })
+                </td>     
+            }            
         </tr>
     }
 </table>
