@@ -2,10 +2,12 @@
 using Autofac.Integration.Mvc;
 using MentProject.App_Start;
 using MentProject.Controllers;
+using MentProject.Models;
 using MentRepository.RepModel;
 using MentRepository.Repository;
 using System;
 using System.Configuration;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -27,7 +29,6 @@ namespace MentProject
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
         }
 
         private ILogRepository _repository;

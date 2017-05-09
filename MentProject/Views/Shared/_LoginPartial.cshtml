@@ -9,7 +9,14 @@
         <li>
             @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Home", routeValues: null, htmlAttributes: new { title = "Home" })
         </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+        @if (Session["Rewards"] == null && Session["Users"] == null)
+        {
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+        }
+        else
+        {
+            <li>@Html.ActionLink("Log off", "PreviewChanges", "AspAdmin")</li>
+        }
     </ul>
     }
 }

@@ -12,6 +12,7 @@ using MentProject.Models;
 using MentProject;
 using Microsoft.Owin;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Web.Caching;
 
 namespace MentProject.Controllers
 {
@@ -73,12 +74,29 @@ namespace MentProject.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
-        
+
+        [AllowAnonymous]
+        public ActionResult LoginFromCache()
+        {
+            Session.Timeout = 180; // 3hours
+            var accObj = HttpContext.Cache["Acc"]; // not working
+            LoginViewModel acc = accObj == null ? null : (LoginViewModel)accObj;
+            if (acc != null)
+            {
+                SignInManager.PasswordSignIn(acc.Login, acc.Password, false, shouldLockout: false);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            HttpContext.Cache.Remove("Acc");
+            HttpContext.Cache.Add("Acc", model, null, Cache.NoAbsoluteExpiration, TimeSpan.FromSeconds(10), CacheItemPriority.Normal, null);
+            
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -140,6 +158,7 @@ namespace MentProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            HttpContext.Cache.Remove("Acc");
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }

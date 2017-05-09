@@ -30,7 +30,6 @@ namespace MentProject.Controllers
                 {
                     _userRepository.SaveUser(UserMapper.UserModelToUserRepModelMapper(item));
                 }
-            Session["Users"] = null;
 
             var rews = (List<RewardModel>)Session["Rewards"];
             if (rews != null && rews.Count > 0)
@@ -38,9 +37,25 @@ namespace MentProject.Controllers
                 {
                     _rewardRepository.SaveReward(RewardMapper.RewardModelToRewardRepModelMapper(item));
                 }
-            Session["Rewards"] = null;
+            CleanSessionState();
 
             return RedirectToAction("Index", "Home");
+        }
+        public ActionResult Decline()
+        {
+            CleanSessionState();
+            return RedirectToAction("Index", "Home");
+        }
+
+        private void CleanSessionState()
+        {
+            Session["Users"] = null;
+            Session["Rewards"] = null;
+        }
+
+        public ActionResult PreviewChanges()
+        {
+            return View();
         }
     }
 }

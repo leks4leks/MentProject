@@ -30,7 +30,7 @@
                             <li>@Html.ActionLink("Manage Roles", "Index", "Account")</li>
                             if (Session["Users"] != null || Session["Rewards"] != null)
                             {
-                                <li>@Html.ActionLink("Submit changes", "Submit", "AspAdmin")</li>
+                                <li>@Html.ActionLink("Submit changes", "PreviewChanges", "AspAdmin")</li>
                             }
                         }
                     }
@@ -50,5 +50,18 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    @if (Session["Rewards"] != null || Session["Users"] != null)
+    {
+        <script>
+            window.onbeforeunload = function() {
+                return "You have unsaved data. Are you sure want to exit?";
+            };
+            $(document).ready(function() {
+                $('a[rel!=ext]').click(function () { window.onbeforeunload = null; });
+                $('Html.ActionLink').click(function () { window.onbeforeunload = null; });
+                $('form').submit(function() { window.onbeforeunload = null; });
+            });
+        </script>
+    }
 </body>
 </html>

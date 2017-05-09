@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "PreviewChanges";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>PreviewChanges</h2>
+
+@Html.ActionLink("Submit", "Submit") | @Html.ActionLink("Decline", "Decline")
+@if (Session["Users"] != null)
+{
+<h2>Users</h2>
+<table class="table">
+    <tr>
+        <th>#</th>
+        <th>
+            @Html.DisplayName("Name")
+        </th>
+        <th>
+            @Html.DisplayName("BDay")
+        </th>
+        <th>
+            @Html.DisplayName("Age")
+        </th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in (List<UserModel>)Session["Users"])
+    {
+        <tr>
+            <th scope="row">
+                @Html.DisplayName(item.Id.ToString())
+            </th>
+            <td>
+                @Html.DisplayName(item.Name)
+            </td>
+            <td>
+                @Html.DisplayName(item.BDay.ToString("dd MMM yyyy"))
+            </td>
+            <td>
+                @Html.DisplayName(item.Age.ToString())
+            </td>
+            <td>
+                <img src="~/images/@item.Photo" width="50" height="50" />
+            </td>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <td>
+                    @Html.ActionLink("Look Raward", "LookRaward", new { id = item.Id })
+                </td>               
+            }
+        </tr>
+    }   
+</table>
+}
+
+@if (Session["Rewards"] != null)
+{
+<h2>Rewards</h2>
+<table class="table">
+    <tr>
+        <th>#</th>
+        <th>
+            @Html.DisplayName("Title")
+        </th>
+        <th>
+            @Html.DisplayName("Description")
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in (List<RewardModel>)Session["Rewards"])
+    {
+        <tr>
+            <th scope="row">
+                @Html.DisplayName(item.Id.ToString())
+            </th>          
+            <td>
+                @Html.DisplayName(item.Title)
+            </td>
+            <td>
+                @Html.DisplayName(item.Description ?? string.Empty)
+            </td>
+            <td>
+                <img src="~/images/@item.Photo" width="50" height="50" />
+            </td>
+        </tr>
+    }
+</table>
+}
+

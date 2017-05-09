@@ -174,12 +174,14 @@ namespace MentProject.Controllers
         }
         private Users LoadRegistry(string userName = null)
         {
+            var rezUsers = new Users();
             var users = UserMapper.ListUserRepModelToListUserModelMapper(_repository.GetAllUsers(userName));
             if (Session["Users"] != null)
             {
-                users.AddRange(((List<UserModel>)Session["Users"]));
+                rezUsers.AddRange((List<UserModel>)Session["Users"]);
             }
-            return users;
+            rezUsers.AddRange(users.Where(_ => !rezUsers.Select(s => s.Id).ToList().Contains(_.Id)));
+            return rezUsers;
         }
     }
 }

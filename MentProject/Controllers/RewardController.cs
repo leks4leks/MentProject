@@ -22,12 +22,14 @@ namespace MentProject.Controllers
 
         private Rewards LoadRegistry(int userId = 0, string rewName = null)
         {
+            var rezRew = new Rewards();
             var rew = RewardMapper.RewardsRepModelToRewardsMapper(_repository.GetAllRewards(userId, rewName), userId);
             if (Session["Rewards"] != null)
             {
-                rew.AddRange(((List<RewardModel>)Session["Rewards"]));
+                rezRew.AddRange(((List<RewardModel>)Session["Rewards"]));
             }
-            return rew;
+            rezRew.AddRange(rew.Where(_ => !rezRew.Select(s => s.Id).ToList().Contains(_.Id)));
+            return rezRew;
         }
         private Rewards LoadRegistryForLook(int userId = 0)
         {
