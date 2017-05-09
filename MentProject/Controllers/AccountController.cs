@@ -79,7 +79,7 @@ namespace MentProject.Controllers
         public ActionResult LoginFromCache()
         {
             Session.Timeout = 180; // 3hours
-            var accObj = HttpContext.Cache["Acc"]; // not working
+            var accObj = HttpContext.Cache["Acc"];
             LoginViewModel acc = accObj == null ? null : (LoginViewModel)accObj;
             if (acc != null)
             {
@@ -95,7 +95,7 @@ namespace MentProject.Controllers
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             HttpContext.Cache.Remove("Acc");
-            HttpContext.Cache.Add("Acc", model, null, Cache.NoAbsoluteExpiration, TimeSpan.FromSeconds(10), CacheItemPriority.Normal, null);
+            HttpContext.Cache.Add("Acc", model, null, Cache.NoAbsoluteExpiration, TimeSpan.FromSeconds(3600), CacheItemPriority.Normal, null);
             
             if (!ModelState.IsValid)
             {
