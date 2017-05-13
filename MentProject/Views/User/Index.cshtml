@@ -1,4 +1,5 @@
-﻿@model Users
+﻿@using MentProject.Enums;
+@model Users
 @{
     ViewBag.Title = "User Registry";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,8 +10,10 @@
 <table class="table">
     <tr>
         <th>#</th>
-        <th></th>
-        <th></th>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <th></th>
+        }
         <th>
             @Html.DisplayName("Name")
         </th>
@@ -31,11 +34,24 @@
             <th scope="row">
                 @Html.DisplayName(item.Id.ToString())
             </th>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole(RolesEnum.admin.ToString()))
+                {
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) 
+                    </td>
+                }
+            }
             <td>
                 @Html.DisplayName(item.Name)
             </td>
@@ -53,7 +69,7 @@
                 <td>
                     @Html.ActionLink("Look Raward", "LookRaward", new { id = item.Id })
                 </td>
-                if (User.IsInRole("admin"))
+                if (User.IsInRole(RolesEnum.admin.ToString()))
                 {
                     <td>
                         @Html.ActionLink("Set Raward", "SetRaward", new { id = item.Id })
@@ -64,7 +80,7 @@
     }
 @if (User.Identity.IsAuthenticated)
 {
-    if (User.IsInRole("admin") || User.IsInRole("aspadmin"))
+    if (User.IsInRole(RolesEnum.admin.ToString()) || User.IsInRole(RolesEnum.aspadmin.ToString()))
     {
         <tr>
             <th>@Html.ActionLink("Add New User", "Create")</th>

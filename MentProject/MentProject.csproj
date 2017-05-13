@@ -315,13 +315,21 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RewardController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Enums\RolesEnum.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\HttpStatus.cs" />
     <Compile Include="Helper\FileHelper.cs" />
     <Compile Include="Helper\RewardMapper.cs" />
+    <Compile Include="Helper\RolesInfo.cs" />
     <Compile Include="Helper\UserMapper.cs" />
+    <Compile Include="Migrations\201705081508147_InitialCreate.cs" />
+    <Compile Include="Migrations\201705081508147_InitialCreate.Designer.cs">
+      <DependentUpon>201705081508147_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migrations\DateBaseSet.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\RewardModel.cs" />
@@ -373,6 +381,11 @@
       <Project>{ae650347-d357-4b4d-8462-0ed73cf8efba}</Project>
       <Name>MentRepository</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201705081508147_InitialCreate.resx">
+      <DependentUpon>201705081508147_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -13,6 +13,8 @@ using MentProject;
 using Microsoft.Owin;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Web.Caching;
+using MentProject.Enums;
+using MentProject.Helper;
 
 namespace MentProject.Controllers
 {
@@ -32,9 +34,9 @@ namespace MentProject.Controllers
         }
 
         private Accs GetAccountsForCheckAdminRole()
-        {
+        {            
             var acc = new Accs();
-            UserManager.Users.ToList().ForEach(_ => acc.Add(new LoginViewModel() { Login = _.UserName, Id = _.Id, HasAdminRole = _.Roles.Any(r => r.RoleId == "A8FB533D-C8DD-4366-A450-93D5D48D199D") }));
+            UserManager.Users.ToList().ForEach(_ => acc.Add(new LoginViewModel() { Login = _.UserName, Id = _.Id, HasAdminRole = _.Roles.Any(r => r.RoleId == RolesInfo.GetRolesIdByName(RolesEnum.admin.ToString())) }));
             return acc;
         }
 
@@ -78,7 +80,6 @@ namespace MentProject.Controllers
         [AllowAnonymous]
         public ActionResult LoginFromCache()
         {
-            Session.Timeout = 180; // 3hours
             var accObj = HttpContext.Cache["Acc"];
             LoginViewModel acc = accObj == null ? null : (LoginViewModel)accObj;
             if (acc != null)
@@ -143,14 +144,18 @@ namespace MentProject.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteAdminRole(string id)
         {
-            UserManager.RemoveFromRole(id, "admin");
+            if(id != User.Identity.GetUserId())
+                UserManager.RemoveFromRole(id, RolesEnum.admin.ToString());
             return View("Index", GetAccountsForCheckAdminRole());
         }
+
+        [Authorize(Roles = "admin")]
         public ActionResult AddAdminRole(string id)
         {
-            UserManager.AddToRole(id, "admin");
+            UserManager.AddToRole(id, RolesEnum.admin.ToString());
             return View("Index", GetAccountsForCheckAdminRole());
         }
 

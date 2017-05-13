@@ -1,4 +1,5 @@
-﻿﻿@model Accs
+﻿@using MentProject.Enums;
+﻿@model Accs
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -34,7 +35,7 @@
                     @Html.DisplayName("-")
                 }
             </td>    
-            @if (User.IsInRole("admin"))
+            @if (User.IsInRole(RolesEnum.admin.ToString()))
             {
                 <td>
                     @Html.ActionLink("Delete admin role", "DeleteAdminRole", new { id = item.Id })  |  

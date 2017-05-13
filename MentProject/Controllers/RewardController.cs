@@ -1,4 +1,5 @@
-﻿using MentProject.Helper;
+﻿using MentProject.Enums;
+using MentProject.Helper;
 using MentProject.Models;
 using MentRepository.Repository;
 using System;
@@ -31,24 +32,32 @@ namespace MentProject.Controllers
             rezRew.AddRange(rew.Where(_ => !rezRew.Select(s => s.Id).ToList().Contains(_.Id)));
             return rezRew;
         }
+        
+        [Authorize(Roles = "user")]
         private Rewards LoadRegistryForLook(int userId = 0)
         {
             return RewardMapper.RewardsRepModelToRewardsMapper(_repository.GetRewardsByUser(userId), userId);
         }
 
         [Route("awards")]
+        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "aspadmin")]
         public ActionResult Index()
         {
             return View(LoadRegistry());
         }
 
         [Route("awards/{id:int}")]
+        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "aspadmin")]
         public ActionResult GetRewardById(int id = 0)
         {
             return Edit(id);
         }
 
         [Route("awards/{rewName}")]
+        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "aspadmin")]
         public ActionResult GetRewardByName(string rewName = null)
         {
             var rews = LoadRegistry(0, rewName);
@@ -57,6 +66,8 @@ namespace MentProject.Controllers
             return View("Index", rews);
         }
 
+        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "aspadmin")]
         public ActionResult Details(long? id)
         {
             if (id == null)
@@ -75,11 +86,15 @@ namespace MentProject.Controllers
         }
         
         [Route("create-award")]
+        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "aspadmin")]
         public ActionResult Create()
         {
             return View("AddEdit", new RewardModel());
         }
 
+        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "aspadmin")]
         public ActionResult SetForm(int? id)
         {
             if (id == null)
@@ -92,7 +107,8 @@ namespace MentProject.Controllers
 
             return View(rewardModel);
         }
-
+        
+        [Authorize(Roles = "user")]
         public ActionResult LookForm(int? id)
         {
             if (id == null)
@@ -108,6 +124,8 @@ namespace MentProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "aspadmin")]
         public ActionResult SetRewardForUser(List<RewardModel> rew)
         {
             var sendData = new Dictionary<int, int>();
@@ -119,6 +137,8 @@ namespace MentProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "aspadmin")]
         public ActionResult AddEdit(HttpPostedFileBase file, [Bind(Include = "Id,Title,Description,Photo,File")] RewardModel rewardModel)
         {
             if (!string.IsNullOrEmpty(rewardModel.Photo))
@@ -127,7 +147,7 @@ namespace MentProject.Controllers
             if (ModelState.IsValid)
             {
                 rewardModel.Photo = FileHelper.SaveFile(file, Server.MapPath("~/Images/"));
-                if (User.IsInRole("aspadmin"))
+                if (User.IsInRole(RolesEnum.aspadmin.ToString()))
                 {
                     if (Session["Rewards"] == null)
                     {
@@ -152,6 +172,8 @@ namespace MentProject.Controllers
         }
         
         [Route("awards/{id:int}/edit")]
+        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "aspadmin")]
         public ActionResult Edit(long? id)
         {
             if (id == null)
@@ -166,6 +188,8 @@ namespace MentProject.Controllers
         }
 
         [Route("awards/{id:int}/delete")]
+        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "aspadmin")]
         public ActionResult Delete(long? id)
         {
             if (id == null)
@@ -181,6 +205,8 @@ namespace MentProject.Controllers
         
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "aspadmin")]
         public ActionResult DeleteConfirmed(long id)
         {
             _repository.DeleteReward(id);

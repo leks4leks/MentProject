@@ -1,4 +1,5 @@
-﻿using MentProject.Helper;
+﻿using MentProject.Enums;
+using MentProject.Helper;
 using MentProject.Models;
 using MentRepository.Repository;
 using System;
@@ -61,13 +62,14 @@ namespace MentProject.Controllers
         #endregion
         
         [HttpPost]
+        [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
         public ActionResult AddEdit(HttpPostedFileBase file, [Bind(Include = "Id,Name,BDay,Photo")] UserModel userModel)
         {            
             if (ModelState.IsValid)
             {
                 userModel.Photo = FileHelper.SaveFile(file, Server.MapPath("~/Images/"));
-                if (User.IsInRole("aspadmin"))
+                if (User.IsInRole(RolesEnum.aspadmin.ToString()))
                 {
                     if (Session["Users"] == null)
                     {
@@ -89,7 +91,8 @@ namespace MentProject.Controllers
 
             return View("AddEdit", userModel);
         }
-        
+
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(int id = 0)
         {
             if (id == 0)
@@ -103,6 +106,7 @@ namespace MentProject.Controllers
             return View("AddEdit", userModel);
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(long id = 0)
         {
             if (id == 0)
@@ -129,6 +133,7 @@ namespace MentProject.Controllers
             return View(userModel);
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult Create()
         {
             return View("AddEdit", new UserModel());
@@ -161,6 +166,7 @@ namespace MentProject.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)
         {

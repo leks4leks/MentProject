@@ -10,6 +10,7 @@ using System.Web.Mvc;
 namespace MentProject.Controllers
 {
     [HandleError()]
+    [Authorize(Roles = "admin")]
     public class AspAdminController : Controller
     {
         private IUserRepository _userRepository;
