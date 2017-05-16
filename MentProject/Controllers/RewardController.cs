@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 
@@ -32,32 +33,35 @@ namespace MentProject.Controllers
             rezRew.AddRange(rew.Where(_ => !rezRew.Select(s => s.Id).ToList().Contains(_.Id)));
             return rezRew;
         }
-        
-        [Authorize(Roles = "user")]
+
+        [Authorize(Roles = "user, admin, aspadmin")]
         private Rewards LoadRegistryForLook(int userId = 0)
         {
             return RewardMapper.RewardsRepModelToRewardsMapper(_repository.GetRewardsByUser(userId), userId);
         }
 
         [Route("awards")]
-        [Authorize(Roles = "admin")]
-        [Authorize(Roles = "aspadmin")]
+        [Authorize(Roles = "admin, aspadmin")]
         public ActionResult Index()
         {
-            return View(LoadRegistry());
+            var model = LoadRegistry();
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_adwsListPartial", model);
+            }
+
+            return View(model);
         }
 
         [Route("awards/{id:int}")]
-        [Authorize(Roles = "admin")]
-        [Authorize(Roles = "aspadmin")]
+        [Authorize(Roles = "admin, aspadmin")]
         public ActionResult GetRewardById(int id = 0)
         {
             return Edit(id);
         }
 
         [Route("awards/{rewName}")]
-        [Authorize(Roles = "admin")]
-        [Authorize(Roles = "aspadmin")]
+        [Authorize(Roles = "admin, aspadmin")]
         public ActionResult GetRewardByName(string rewName = null)
         {
             var rews = LoadRegistry(0, rewName);
@@ -66,8 +70,7 @@ namespace MentProject.Controllers
             return View("Index", rews);
         }
 
-        [Authorize(Roles = "admin")]
-        [Authorize(Roles = "aspadmin")]
+        [Authorize(Roles = "admin, aspadmin")]
         public ActionResult Details(long? id)
         {
             if (id == null)
@@ -86,15 +89,13 @@ namespace MentProject.Controllers
         }
         
         [Route("create-award")]
-        [Authorize(Roles = "admin")]
-        [Authorize(Roles = "aspadmin")]
+        [Authorize(Roles = "admin, aspadmin")]
         public ActionResult Create()
         {
             return View("AddEdit", new RewardModel());
         }
 
-        [Authorize(Roles = "admin")]
-        [Authorize(Roles = "aspadmin")]
+        [Authorize(Roles = "admin, aspadmin")]
         public ActionResult SetForm(int? id)
         {
             if (id == null)
@@ -108,7 +109,7 @@ namespace MentProject.Controllers
             return View(rewardModel);
         }
         
-        [Authorize(Roles = "user")]
+        [Authorize(Roles = "user, admin, aspadmin")]
         public ActionResult LookForm(int? id)
         {
             if (id == null)
@@ -124,8 +125,7 @@ namespace MentProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
-        [Authorize(Roles = "aspadmin")]
+        [Authorize(Roles = "admin, aspadmin")]
         public ActionResult SetRewardForUser(List<RewardModel> rew)
         {
             var sendData = new Dictionary<int, int>();
@@ -137,8 +137,7 @@ namespace MentProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
-        [Authorize(Roles = "aspadmin")]
+        [Authorize(Roles = "admin, aspadmin")]
         public ActionResult AddEdit(HttpPostedFileBase file, [Bind(Include = "Id,Title,Description,Photo,File")] RewardModel rewardModel)
         {
             if (!string.IsNullOrEmpty(rewardModel.Photo))
@@ -165,15 +164,18 @@ namespace MentProject.Controllers
                 {
                     _repository.SaveReward(RewardMapper.RewardModelToRewardRepModelMapper(rewardModel));
                 }
-                return RedirectToAction("Index");
             }
 
-            return View("AddEdit", rewardModel);
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_adwsListPartial", rewardModel);
+            }
+
+            return RedirectToAction("Index");
         }
         
         [Route("awards/{id:int}/edit")]
-        [Authorize(Roles = "admin")]
-        [Authorize(Roles = "aspadmin")]
+        [Authorize(Roles = "admin, aspadmin")]
         public ActionResult Edit(long? id)
         {
             if (id == null)
@@ -188,8 +190,7 @@ namespace MentProject.Controllers
         }
 
         [Route("awards/{id:int}/delete")]
-        [Authorize(Roles = "admin")]
-        [Authorize(Roles = "aspadmin")]
+        [Authorize(Roles = "admin, aspadmin")]
         public ActionResult Delete(long? id)
         {
             if (id == null)
@@ -199,18 +200,22 @@ namespace MentProject.Controllers
 
             if (rewardModel == null)
                 return HttpNotFound();
+            
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_deletePartial", rewardModel);
+            }
 
             return View(rewardModel);
         }
         
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
-        [Authorize(Roles = "aspadmin")]
+        [Authorize(Roles = "admin, aspadmin")]
         public ActionResult DeleteConfirmed(long id)
         {
             _repository.DeleteReward(id);
-            return RedirectToAction("Index");
+            return Index();
         }        
     }
 }

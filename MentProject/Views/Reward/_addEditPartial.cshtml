@@ -1,0 +1,70 @@
+﻿@model MentProject.Models.RewardModel
+
+@*@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_WorkLayout.cshtml";
+}*@
+
+
+@using (Ajax.BeginForm("AddEdit", "Reward", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "adwListBody", InsertionMode = InsertionMode.InsertAfter }, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Add/Edit Reward Form</h4>
+        <hr />
+        @Html.HiddenFor(model => model.Id)
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.HiddenFor(model => model.Photo)
+            @Html.LabelFor(model => model.File, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <form id="form1" runat="server">
+                    <input type="file" name="@Html.NameFor(model => model.File)" id="@Html.IdFor(model => model.File)" class="btn btn-primary" />
+                    <br /> <img id="selImg" src="~/images/@Model.Photo" width="100" height="100" border="2" />
+                </form>               
+                @Html.ValidationMessageFor(model => model.File, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Add/Edit" onclick="submit()" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    function submit (e){
+        e.preventDefault = true;
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(e) {
+            if ( 4 == this.readyState ) {
+                console.log(['xhr upload complete', e]);
+            }
+        };
+        xhr.open('POST', 'Reward/AddEdit', true);
+        xhr.setRequestHeader("Content-Type","multipart/form-data");
+        var formData = new FormData();
+        formData.append("selImg", $("#selImg").files[0]);
+        xhr.send(formData);
+    };
+</script>
+

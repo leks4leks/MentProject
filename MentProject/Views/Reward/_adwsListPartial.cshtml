@@ -1,0 +1,51 @@
+﻿@model Rewards
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th></th>
+            <th>
+                @Html.DisplayName("Title")
+            </th>
+            <th>
+                @Html.DisplayName("Description")
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody id="adwListBody">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row">
+                    @Html.DisplayName(item.Id.ToString())
+                </th>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Ajax.ActionLink("Delete", "Delete", new { id = item.Id }, new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "delPar", InsertionMode = InsertionMode.Replace }, new { onclick = "showPar();"})
+                </td>
+                <td>
+                    @Html.DisplayName(item.Title)
+                </td>
+                <td>
+                    @Html.DisplayName(item.Description ?? string.Empty)
+                </td>
+                <td>
+                    <img src="~/images/@item.Photo" width="50" height="50" />
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function showPar(val)
+    {
+        document.getElementById('delPar').setAttribute('style', 'visibility:visible');
+        document.getElementById('addPar').setAttribute('style', 'visibility:hidden');
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    }
+</script>

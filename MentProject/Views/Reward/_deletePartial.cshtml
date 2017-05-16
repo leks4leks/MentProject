@@ -1,0 +1,54 @@
+﻿@model MentProject.Models.RewardModel
+
+@*@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_WorkLayout.cshtml";
+}*@
+
+@using (Ajax.BeginForm("DeleteConfirmed", "Reward", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "adwsList", InsertionMode = InsertionMode.Replace }, new { id = @Model.Id, onclick = "showPar();" }))
+{
+    @Html.AntiForgeryToken()
+    <div>
+        <h4>Are you sure you want to delete @Model.Title ?</h4>
+        @Html.HiddenFor(model => model.Id)
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Photo)
+            </dt>
+        
+            <dd>
+                <img id="selImg" src="~/images/@Model.Photo" width="100" height="100" border="2" />
+            </dd>
+        </dl>      
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+<script>
+    function showPar(val)
+    {
+        document.getElementById('delPar').setAttribute('style', 'visibility:hidden');
+        document.getElementById('addPar').setAttribute('style', 'visibility:visible');
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    }
+</script>

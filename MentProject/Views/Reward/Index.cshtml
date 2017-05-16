@@ -1,4 +1,4 @@
-﻿@model Rewards
+﻿@model IEnumerable<RewardModel>
 @{
     ViewBag.Title = "Reward Registry";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,44 +6,30 @@
 
 <h2>Reward Registry</h2>
 
-<table class="table">
+<table>
     <tr>
-        <th>#</th>
-        <th></th>
-        <th>
-            @Html.DisplayName("Title")
-        </th>
-        <th>
-            @Html.DisplayName("Description")
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <th scope="row">
-                @Html.DisplayName(item.Id.ToString())
-            </th>           
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
-            <td>
-                @Html.DisplayName(item.Title)
-            </td>
-            <td>
-                @Html.DisplayName(item.Description ?? string.Empty)
-            </td>
-            <td>
-                <img src="~/images/@item.Photo" width="50" height="50" />
-            </td>
-        </tr>
-    }
-    <tr>
-        <th>@Html.ActionLink("Add New Reward", "Create")</th>
+        <td>
+            <div id="addPar">
+                @Html.Partial("_addEditPartial", new RewardModel())
+            </div>
+        </td>
+        <td>
+            <div id="delPar" style="visibility:hidden">
+                @Html.Partial("_deletePartial", new RewardModel())
+            </div>
+        </td>
     </tr>
 </table>
+
+@Ajax.ActionLink("Refresh", "Index", new { }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "adwsList", InsertionMode = InsertionMode.Replace }, new { @class = "btn btn-default" })
+
+<div id="adwsList">
+    @Html.Partial("_adwsListPartial")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
 
 
