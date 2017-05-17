@@ -11,6 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.Http;
 
 namespace MentProject
 {
@@ -27,6 +28,10 @@ namespace MentProject
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
 
             AreaRegistration.RegisterAllAreas();
+            
+            WebApiConfig.Register(GlobalConfiguration.Configuration);
+            GlobalConfiguration.Configuration.EnsureInitialized();
+
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
@@ -85,4 +90,5 @@ namespace MentProject
             });
         }
     }
+
 }

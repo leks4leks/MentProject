@@ -47,13 +47,13 @@ namespace MentProject.Helper
         }
 
         /// <summary>
-        /// RewardsRepModel to Rewards
+        /// RewardsRepModel to List<RewardModel>
         /// </summary>
         /// <param name="rewsRep">RewardsRepModel</param>
-        /// <returns>Rewards</returns>
-        public static Rewards RewardsRepModelToRewardsMapper(RewardsRepModel rewsRep, int userId = 0)
+        /// <returns>List<RewardModel></returns>
+        public static List<RewardModel> RewardsRepModelToRewardsMapper(RewardsRepModel rewsRep, int userId = 0)
         {
-            var res = new Rewards();
+            var res = new List<RewardModel>();
             foreach (var item in rewsRep)
                 res.Add(RewardRepModelToRewardModelMapper(item, userId));
             return res;

@@ -35,7 +35,7 @@ namespace MentProject.Controllers
         }
 
         [Authorize(Roles = "user, admin, aspadmin")]
-        private Rewards LoadRegistryForLook(int userId = 0)
+        private List<RewardModel> LoadRegistryForLook(int userId = 0)
         {
             return RewardMapper.RewardsRepModelToRewardsMapper(_repository.GetRewardsByUser(userId), userId);
         }

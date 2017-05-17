@@ -31,5 +31,53 @@
     @Scripts.Render("~/bundles/jqueryval")
 }
 
+<script src="Scripts/jquery-3.1.1.min.js"></script>
+<script>
+    var uri = 'api/apireward',
+           $rewId = $('#Id'),
+           $rewTitle = $('#Title'),
+           $rewDesc = $('#Description'),
+           $rewFile = $('#File'),
+           $addrew = $('#addrew');
+           $adwListBody = $('#adwListBody');
+
+        $(function () {
+            reloadData();
+        });
+
+        function reloadData() {
+            $.getJSON(uri)
+                .done(function (data) {
+                    $adwListBody.empty();
+                    $.each(data, function (key, item) {
+                        $('<tr>').appendTo($adwListBody)
+                        $('<th>', { text: item.Id }).appendTo($adwListBody)
+                        $('<th>').appendTo($adwListBody)
+                        $('<th>', { text: item.Title }).appendTo($adwListBody)
+                        $('<th>', { text: item.Description }).appendTo($adwListBody)
+                        $('<img src="/images/' + item.Photo + '" width="50" height="50" />').appendTo($adwListBody)
+                    });
+                });
+        };
+
+        $addrew.click(function () {
+            var newrew = {
+                Id: $rewId.val(),
+                Title: $rewTitle.val(),
+                Description: $rewDesc.val()
+                //File: $rewFile.val()
+            };
+            $.ajax({
+                data: newrew,
+                type: 'post',
+                url: uri,
+                success: function (data) {
+                    alert('done');
+                }
+            });
+
+        });
+</script>
+
 
 

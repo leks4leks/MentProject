@@ -19,7 +19,7 @@ namespace MentRepository.Repository
         {
             return RewardRepMapper.RewardToRewardRepModelMapper(_db.Rewards.Where(_ => _.Id == id && _.IsDeleted == 0).FirstOrDefault());
         }
-
+        
         RewardsRepModel IRewardRepository.GetAllRewards(long userId, string rewName)
         {
             var model = RewardRepMapper.ListRewardToListRewardsRepModelMapper(_db.Rewards.Where(_ => _.IsDeleted == 0).ToList());
