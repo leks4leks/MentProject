@@ -4,8 +4,11 @@ using MentProject.Helper;
 using MentProject.Models;
 using MentRepository.RepModel;
 using MentRepository.Repository;
+using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
+using System.Net.Http.Formatting;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.OData;
@@ -29,27 +32,45 @@ namespace MentProject.Controllers
         }
 
         [EnableQuery]
+        [HttpGet]
         public IQueryable<Reward> Get()
         {   
             return LoadRegistry();
         }
-        
+
         [HttpPost]
         [Authorize(Roles = "admin, aspadmin")]
-        public bool Post(RewardModel rewardModel)
+        public bool Post(FormDataCollection formData)
         {
-            if (!string.IsNullOrEmpty(rewardModel.Photo))
-                this.ModelState.Remove("File");
+            //if (!string.IsNullOrEmpty(rewardModel.Photo))
+            //    this.ModelState.Remove("File");
 
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            //{
+            //    _repository.SaveReward(RewardMapper.RewardModelToRewardRepModelMapper(rewardModel));
+            //}
+            //var value1 = Request["SimpleProp1"];
+            var value = formData["File"];
+
+            if (HttpContext.Current.Request.Files.AllKeys.Any())
             {
-                _repository.SaveReward(RewardMapper.RewardModelToRewardRepModelMapper(rewardModel));
+                // Get the uploaded image from the Files collection
+                var httpPostedFile = HttpContext.Current.Request.Files["File"];
+
+                if (httpPostedFile != null)
+                {
+                    // Get the complete file path
+                    String fileSavePath = HttpContext.Current.Server.MapPath("~/Images/") + (Guid.NewGuid()).ToString() + "." + HttpContext.Current.Request.Form["FileName"].Split('.').ToList().Last();
+
+                    // Save the uploaded file to "UploadedFiles" folder
+                    httpPostedFile.SaveAs(fileSavePath);
+                }
             }
 
             return true;
         }
 
-        [HttpPost]
+        [HttpPut]
         [Authorize(Roles = "admin, aspadmin")]
         public bool Put(HttpPostedFileBase file, RewardModel rewardModel)
         {
@@ -81,8 +102,7 @@ namespace MentProject.Controllers
 
             return true;
         }
-
-        [HttpPost]
+        
         [Authorize(Roles = "admin, aspadmin")]
         public bool Delete(long id)
         {

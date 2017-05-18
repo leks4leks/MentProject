@@ -37,7 +37,9 @@
            $rewId = $('#Id'),
            $rewTitle = $('#Title'),
            $rewDesc = $('#Description'),
-           $rewFile = $('#File'),
+           $rewFile = $('#File'), 
+           $selImg = $('#selImg'),
+           $Photo = $('#Photo'),
            $addrew = $('#addrew');
            $adwListBody = $('#adwListBody');
 
@@ -52,7 +54,51 @@
                     $.each(data, function (key, item) {
                         $('<tr>').appendTo($adwListBody)
                         $('<th>', { text: item.Id }).appendTo($adwListBody)
-                        $('<th>').appendTo($adwListBody)
+                        $('<button/>', {
+                            text: "delete",
+                            id: 'btn_' + item.Id,
+                            click: function () {
+                                var r = confirm("Are u sure whant to delete reward.\nId: " + item.Id + "\nTitle: " + item.Title + "\nDesc: " + item.Description);
+                                if (r == true) {
+                                    $.ajax({
+                                        type: 'delete',
+                                        url: uri + "/" + item.Id,
+                                        contentType: 'application/json',
+                                        success: function (data) {
+                                            reloadData();
+                                        }
+                                    });
+                                }                                
+                            }
+                        }).appendTo($adwListBody)
+                        $('<button/>', {
+                            text: "edit",
+                            id: 'btn_' + item.Id,
+                            click: function () {                                
+                                $.getJSON(uri + "?$filter=Id eq " + item.Id)
+                                    .done(function (data) {
+                                        if (data) {
+                                            $rewId.val(data[0].Id);
+                                            $rewTitle.val(data[0].Title);
+                                            $rewDesc.val(data[0].Description);
+                                            $selImg.attr("src", "/images/" + data[0].Photo);
+                                            $("html, body").animate({ scrollTop: 0 }, "slow");
+                                        } else { alert("Data not found"); }
+                                    })
+                            }
+                        }).appendTo($adwListBody)
+                        $('<button/>', {
+                            text: "details",
+                            id: 'btn_' + item.Id,
+                            click: function () {                                
+                                $.getJSON(uri + "?$filter=Id eq " + item.Id)
+                                    .done(function (data) {
+                                        if (data) {
+                                            alert("Reward info\nId: " + data[0].Id + "\nTitle: " + data[0].Title + "\nDesc: " + data[0].Description);
+                                        } else { alert("Data not found");}
+                                    })
+                            }
+                        }).appendTo($adwListBody)
                         $('<th>', { text: item.Title }).appendTo($adwListBody)
                         $('<th>', { text: item.Description }).appendTo($adwListBody)
                         $('<img src="/images/' + item.Photo + '" width="50" height="50" />').appendTo($adwListBody)
@@ -60,23 +106,36 @@
                 });
         };
 
-        $addrew.click(function () {
-            var newrew = {
-                Id: $rewId.val(),
-                Title: $rewTitle.val(),
-                Description: $rewDesc.val()
-                //File: $rewFile.val()
-            };
+        //$('form').on('submit', serFiles);
+
+        //function serFiles(event) {
+        //    var forms = ($selImg.serialize());
+        //}
+
+        $addrew.on('click', function () {
+            var data = new FormData();
+            if ($selImg.length > 0) {
+                data.append("File", $selImg[0]);
+                data.append("FileName", "qwe.jpg");
+            }
+            data.append("Id", $rewId.val());
+            data.append("Title", $rewTitle.val());
+            data.append("Description", $rewDesc.val());
+            data.append("Photo", $Photo.val());
+
             $.ajax({
-                data: newrew,
+                data: data,
                 type: 'post',
                 url: uri,
+                contentType: 'application/x-www-form-urlencoded',
+                processData: false,
                 success: function (data) {
-                    alert('done');
+                    reloadData();
                 }
             });
 
         });
+
 </script>
 
 
