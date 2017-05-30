@@ -23,6 +23,7 @@ namespace MentProject.Controllers
         
         public ActionResult Index()
         {
+            ViewBag.Title = "Пользователи";
             return View(LoadRegistry());
         }
 
@@ -182,9 +183,12 @@ namespace MentProject.Controllers
         {
             var rezUsers = new Users();
             var users = UserMapper.ListUserRepModelToListUserModelMapper(_repository.GetAllUsers(userName));
-            if (Session["Users"] != null)
+            if (Session != null)
             {
-                rezUsers.AddRange((List<UserModel>)Session["Users"]);
+                if (Session["Users"] != null)
+                {
+                    rezUsers.AddRange((List<UserModel>)Session["Users"]);
+                }
             }
             rezUsers.AddRange(users.Where(_ => !rezUsers.Select(s => s.Id).ToList().Contains(_.Id)));
             return rezUsers;

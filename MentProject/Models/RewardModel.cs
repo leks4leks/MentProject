@@ -24,8 +24,7 @@ namespace MentProject.Models
         public string Title { get; set; }
         [MaxLength(250)]
         public string Description { get; set; }        
-        public string Photo { get; set; }     
-        [Required]   
+        public string Photo { get; set; }    
         public HttpPostedFileBase File { get; set; }
         public int IsDeleted { get; set; }
         public bool IsSetRewardForUser { get; set; }

@@ -11,10 +11,15 @@ namespace MentProject
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
             routes.MapMvcAttributeRoutes();
-            
+
+            RegisterAllRoutes(routes);
+        }
+
+        public static void RegisterAllRoutes(RouteCollection routes)
+        {
+            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+                        
             routes.MapRoute(
               name: "GetUsers",
               url: "users",
